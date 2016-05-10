@@ -8,6 +8,40 @@ function contains(a, obj) {
     return false;
 }
 
+function build_alexa_response(stops){
+
+
+  var s = Object.keys(stops).sort(function(a,b){
+    return Number(stops[a].time)- Number(stops[b].time);
+  });
+  var r = "";
+  for(var i of s){
+    r += stops[i].time+" minutes from "+stops[i].name+ ", "
+  }
+  r = r.slice(0, -2);
+  r += ".";
+
+  var alexa= {
+    version: "1.0", 
+    response: {
+      outputSpeech: {
+        type: "PlainText",
+        text: r
+      }, 
+      card:{
+        content: r,
+        title: "Next muni rides",
+        type: "Simple"
+      }, 
+      shouldEndSession: true 
+    }, 
+    sessionAttributes: {} 
+  }
+
+  return alexa;
+
+}
+
 
 var express = require('express');
 var app = express();
@@ -42,7 +76,7 @@ app.get('/', function(request, response) {
             stops[stopcode] = {name: stopname, time: leavetime};
             console.log(stops);
             if (!contains(Object.keys(stops).map(function(e){return stops[e];}), null)){
-              response.render('pages/index', {stops: stops});
+              response.render('pages/index', {alexa_response: build_alexa_response(stops)});
             }
           });
       });
