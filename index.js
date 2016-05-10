@@ -62,7 +62,10 @@ var get_muni = function(request, response) {
             stops[stopcode] = {name: stopname, time: leavetime};
             console.log(stops);
             if (!contains(Object.keys(stops).map(function(e){return stops[e];}), null)){
-              response.render('pages/index', {alexa_response: build_alexa_response(stops)});
+              //response.render('pages/index', {alexa_response: build_alexa_response(stops)});
+              response.end(
+                JSON.stringify(build_alexa_response(stops))
+                );
             }
           });
       });
