@@ -43,21 +43,7 @@ function build_alexa_response(stops){
 }
 
 
-var express = require('express');
-var app = express();
-var wwwrequest = require('request');
-var parseString = require('xml2js').parseString;
-
-
-app.set('port', (process.env.PORT || 5000));
-
-app.use(express.static(__dirname + '/public'));
-
-// views is directory for all template files
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
-app.get('/', function(request, response) {
+var get_muni = function(request, response) {
   var stops = {16086: null, 14168: null};
   var url="http://services.my511.org/Transit2.0/GetNextDeparturesByStopCode.aspx?token=c1637962-ea6e-456f-8002-5ca4186b7829&stopCode=";
   var busnr = "37";
@@ -81,7 +67,25 @@ app.get('/', function(request, response) {
           });
       });
     }
-});
+}
+
+var express = require('express');
+var app = express();
+var wwwrequest = require('request');
+var parseString = require('xml2js').parseString;
+
+
+app.set('port', (process.env.PORT || 5000));
+
+app.use(express.static(__dirname + '/public'));
+
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
+app.post('/', get_muni);
+app.get('/', get_muni);
+
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
