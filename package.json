@@ -12,8 +12,16 @@
   "dependencies": {
     "ejs": "2.4.1",
     "express": "4.13.3",
+    "express-session": "1.13.0",
     "request": "2.72.0",
-    "xml2js": "0.4.16"
+    "xml2js": "0.4.16",
+    "mongoose": "4.4.17",
+    "bcrypt-nodejs": "0.0.3",
+    "passport": "0.3.2",
+    "passport-http": "0.3.0",
+    "passport-http-bearer": "1.0.1",
+    "body-parser": "1.15.1",
+    "oauth2orize": "1.2.2"
   },
   "repository": {
     "type": "git",
